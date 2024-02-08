@@ -6,7 +6,7 @@ import notebook.model.repository.GBRepository;
 import java.util.List;
 import java.util.Objects;
 
-public class UserController {
+public class  UserController implements Controller{
     private final GBRepository repository;
 
     public UserController(GBRepository repository) {
@@ -31,5 +31,9 @@ public class UserController {
     public void updateUser(String userId, User update) {
         update.setId(Long.parseLong(userId));
         repository.update(Long.parseLong(userId), update);
+    }
+
+    public List<User> readAll() {
+        return  repository.findAll();
     }
 }
