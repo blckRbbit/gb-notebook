@@ -1,5 +1,7 @@
 package notebook.model;
 
+import java.util.Scanner;
+
 public class User {
     private Long id;
     private String firstName;
@@ -53,4 +55,5 @@ public class User {
     public String toString() {
         return String.format("Идентафикатор: %s\nИмя: %s,\nФамилия: %s,\nТелефон: %s", id, firstName, lastName, phone);
     }
+
 }
