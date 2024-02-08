@@ -4,8 +4,6 @@ import notebook.controller.UserController;
 import notebook.model.User;
 import notebook.util.Commands;
 
-import java.util.Scanner;
-
 public class UserView {
     private final UserController userController;
 
@@ -13,7 +11,7 @@ public class UserView {
         this.userController = userController;
     }
 
-    public void run(){
+    public void run() {
         Commands com;
 
         while (true) {
@@ -21,6 +19,14 @@ public class UserView {
             com = Commands.valueOf(command);
             if (com == Commands.EXIT) return;
             switch (com) {
+                case DELETE:
+                    String removeId = userController.prompt("Идентификатор пользователя для удаления : ");
+                    try {
+                        userController.deleteUser(Long.parseLong(removeId));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
                 case LIST:
                     System.out.println(userController.readAll());
                     break;
@@ -43,5 +49,5 @@ public class UserView {
                     userController.updateUser(userId, userController.createUser());
             }
         }
-   }
+    }
 }

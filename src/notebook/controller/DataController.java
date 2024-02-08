@@ -1,4 +1,4 @@
 package notebook.controller;
 
-public class DataController implements Controller{
+public class DataController implements Controller {
 }

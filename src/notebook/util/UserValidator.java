@@ -11,4 +11,9 @@ public class UserValidator {
         return user;
 
     }
+
+//    public String removeSpacesInLine (String stringIn){
+//        stringIn.replaceAll(" ","").trim();
+//        return stringIn;
+//    }
 }

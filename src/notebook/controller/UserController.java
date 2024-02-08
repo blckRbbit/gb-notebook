@@ -4,10 +4,11 @@ import notebook.model.User;
 import notebook.model.repository.GBRepository;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class  UserController implements Controller{
+public class UserController implements Controller {
     private final GBRepository repository;
 
     public UserController(GBRepository repository) {
@@ -34,8 +35,12 @@ public class  UserController implements Controller{
         repository.update(Long.parseLong(userId), update);
     }
 
+    public void deleteUser(Long userId) {
+        System.out.println(repository.delete(userId) ? "Пользователь с ID : " + userId + " удалён." : "Пользователь с таким ID не найден");
+    }
+
     public List<User> readAll() {
-        return  repository.findAll();
+        return repository.findAll();
     }
 
     public User createUser() {
@@ -48,6 +53,6 @@ public class  UserController implements Controller{
     public String prompt(String message) {
         Scanner in = new Scanner(System.in);
         System.out.print(message);
-        return in.nextLine();
+        return in.nextLine().toUpperCase(Locale.ROOT).replaceAll(" ", "").trim();
     }
 }
