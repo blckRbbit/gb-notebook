@@ -1,6 +1,7 @@
 package notebook.model.repository.impl;
 
 import notebook.model.dao.impl.FileOperation;
+import notebook.util.UserValidator;
 import notebook.util.mapper.impl.UserMapper;
 import notebook.model.User;
 import notebook.model.repository.GBRepository;
@@ -57,9 +58,16 @@ public class UserRepository implements GBRepository {
                 .filter(u -> u.getId()
                         .equals(userId))
                 .findFirst().orElseThrow(() -> new RuntimeException("User not found"));
-        editUser.setFirstName(update.getFirstName());
-        editUser.setLastName(update.getLastName());
-        editUser.setPhone(update.getPhone());
+
+        if(!update.getFirstName().isEmpty()) {
+            editUser.setFirstName(update.getFirstName());
+        }
+        if(!update.getLastName().isEmpty()) {
+            editUser.setLastName(update.getLastName());
+        }
+        if(!update.getPhone().isEmpty()) {
+            editUser.setPhone(update.getPhone());
+        }
         write(users);
         return Optional.of(update);
     }
