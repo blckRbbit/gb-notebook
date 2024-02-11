@@ -3,8 +3,13 @@ package notebook.view;
 import notebook.controller.UserController;
 import notebook.model.User;
 import notebook.util.Commands;
+import notebook.util.UserDataValidator;
+import notebook.util.UserValidator;
 
+import java.util.List;
 import java.util.Scanner;
+
+import static jdk.nashorn.internal.objects.NativeString.toUpperCase;
 
 public class UserView {
     private final UserController userController;
@@ -18,7 +23,7 @@ public class UserView {
 
         while (true) {
             String command = prompt("Введите команду: ");
-            com = Commands.valueOf(command);
+            com = Commands.valueOf(toUpperCase(command));
             if (com == Commands.EXIT) return;
             switch (com) {
                 case CREATE:
@@ -37,9 +42,16 @@ public class UserView {
                     break;
                 case UPDATE:
                     String userId = prompt("Enter user id: ");
-                    userController.updateUser(userId, createUser());
+                    userController.updateUser(userId, updateUserData());
                 case LIST:
-                    System.out.println(userController.readAll());
+                    List<User> list = userController.readAll();
+                    for(User user : list){
+                        System.out.println(user);
+                    }
+                    break;
+                case DELETE:
+                    userId = prompt("Enter user id: ");
+                    userController.deleteUser(Long.parseLong(userId));
                     break;
             }
         }
@@ -52,6 +64,21 @@ public class UserView {
     }
 
     private User createUser() {
+        String firstName = prompt("Имя: ");
+        UserDataValidator dataValidator = new UserDataValidator();
+        firstName =dataValidator.validate(firstName);
+
+        String lastName = prompt("Фамилия: ");
+        lastName =dataValidator.validate(lastName);
+
+        String phone = prompt("Номер телефона: ");
+        phone =dataValidator.validate(phone);
+
+//        UserValidator validator = new UserValidator();
+        return new User(firstName, lastName, phone);
+//        return validator.validate(new User(firstName, lastName, phone));
+    }
+    private User updateUserData(){
         String firstName = prompt("Имя: ");
         String lastName = prompt("Фамилия: ");
         String phone = prompt("Номер телефона: ");
