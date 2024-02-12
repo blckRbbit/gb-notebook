@@ -3,6 +3,7 @@ package notebook.view;
 import notebook.controller.UserController;
 import notebook.model.User;
 import notebook.util.Commands;
+import notebook.util.UserValidator;
 
 import java.util.Scanner;
 
@@ -38,7 +39,10 @@ public class UserView {
                 case UPDATE:
                     String userId = prompt("Enter user id: ");
                     userController.updateUser(userId, createUser());
-            }
+
+                case LIST:
+                    System.out.println(userController.readAll());
+            } // todo добавить исключения
         }
     }
 
@@ -48,10 +52,12 @@ public class UserView {
         return in.nextLine();
     }
 
-    private User createUser() {
+    private User createUser() { // todo подумать может перенести в другой слой
+        UserValidator validator = new UserValidator();
+
         String firstName = prompt("Имя: ");
         String lastName = prompt("Фамилия: ");
         String phone = prompt("Номер телефона: ");
-        return new User(firstName, lastName, phone);
+        return validator.validate(new User(firstName, lastName, phone));
     }
 }
