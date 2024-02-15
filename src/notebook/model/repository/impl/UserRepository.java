@@ -10,18 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserRepository implements GBRepository {
-    private UserMapper mapper = null;
-
+    private UserMapper mapper;
     private String fileName;
 
     public UserRepository(UserRepository fileOperation) {
         this.fileName = fileOperation.fileName;
         this.mapper = new UserMapper();
-
-    }
-
-
-    public void FileOperation(String fileName) {
 
     }
 
