@@ -1,0 +1,85 @@
+<html>
+<head>
+<title>UserView.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+UserView.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">notebook</span><span class="s2">.</span><span class="s1">view</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">notebook</span><span class="s2">.</span><span class="s1">controller</span><span class="s2">.</span><span class="s1">UserController</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">notebook</span><span class="s2">.</span><span class="s1">model</span><span class="s2">.</span><span class="s1">User</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">notebook</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Commands</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">UserView </span><span class="s2">{</span>
+    <span class="s0">private final </span><span class="s1">UserController userController</span><span class="s2">;</span>
+
+    <span class="s0">public </span><span class="s1">UserView</span><span class="s2">(</span><span class="s1">UserController userController</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">userController </span><span class="s2">= </span><span class="s1">userController</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">run</span><span class="s2">(){</span>
+        <span class="s1">Commands com</span><span class="s2">;</span>
+
+        <span class="s0">while </span><span class="s2">(</span><span class="s0">true</span><span class="s2">) {</span>
+            <span class="s1">String command </span><span class="s2">= </span><span class="s1">userController</span><span class="s2">.</span><span class="s1">prompt</span><span class="s2">(</span><span class="s3">&quot;Введите команду: &quot;</span><span class="s2">);</span>
+            <span class="s4">// Проверяем, ввел ли пользователь команду</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">command</span><span class="s2">.</span><span class="s1">trim</span><span class="s2">().</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+                <span class="s1">com </span><span class="s2">= </span><span class="s1">Commands</span><span class="s2">.</span><span class="s1">NONE</span><span class="s2">;  </span><span class="s4">// Запускаем команду NONE</span>
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                <span class="s0">try </span><span class="s2">{</span>
+                    <span class="s1">com </span><span class="s2">= </span><span class="s1">Commands</span><span class="s2">.</span><span class="s1">valueOf</span><span class="s2">(</span><span class="s1">command</span><span class="s2">);</span>
+                <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">IllegalArgumentException e</span><span class="s2">) {</span>
+                    <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Неверная команда. Пожалуйста, повторите ввод.&quot;</span><span class="s2">);</span>
+                    <span class="s0">continue</span><span class="s2">; </span><span class="s4">// Перезапускаем цикл</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">com </span><span class="s2">== </span><span class="s1">Commands</span><span class="s2">.</span><span class="s1">EXIT</span><span class="s2">) </span><span class="s0">return</span><span class="s2">;</span>
+            <span class="s0">switch </span><span class="s2">(</span><span class="s1">com</span><span class="s2">) {</span>
+                <span class="s0">case </span><span class="s1">NONE</span><span class="s2">:</span>
+                    <span class="s1">userController</span><span class="s2">.</span><span class="s1">printAllCommands</span><span class="s2">();</span>
+                    <span class="s0">break</span><span class="s2">;</span>
+                <span class="s0">case </span><span class="s1">CREATE</span><span class="s2">:</span>
+                    <span class="s1">User u </span><span class="s2">= </span><span class="s1">userController</span><span class="s2">.</span><span class="s1">createUser</span><span class="s2">();</span>
+                    <span class="s1">userController</span><span class="s2">.</span><span class="s1">saveUser</span><span class="s2">(</span><span class="s1">u</span><span class="s2">);</span>
+                    <span class="s0">break</span><span class="s2">;</span>
+                <span class="s0">case </span><span class="s1">READ</span><span class="s2">:</span>
+                    <span class="s1">String id </span><span class="s2">= </span><span class="s1">userController</span><span class="s2">.</span><span class="s1">prompt</span><span class="s2">(</span><span class="s3">&quot;Идентификатор пользователя: &quot;</span><span class="s2">);</span>
+                    <span class="s0">try </span><span class="s2">{</span>
+                        <span class="s1">User user </span><span class="s2">= </span><span class="s1">userController</span><span class="s2">.</span><span class="s1">readUser</span><span class="s2">(</span><span class="s1">Long</span><span class="s2">.</span><span class="s1">parseLong</span><span class="s2">(</span><span class="s1">id</span><span class="s2">));</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s1">user</span><span class="s2">);</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">();</span>
+                    <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+                        <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s1">e</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                    <span class="s0">break</span><span class="s2">;</span>
+                <span class="s0">case </span><span class="s1">LIST</span><span class="s2">:</span>
+                    <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s1">userController</span><span class="s2">.</span><span class="s1">readAll</span><span class="s2">());</span>
+                    <span class="s0">break</span><span class="s2">;</span>
+                <span class="s0">case </span><span class="s1">UPDATE</span><span class="s2">:</span>
+                    <span class="s1">String userId </span><span class="s2">= </span><span class="s1">userController</span><span class="s2">.</span><span class="s1">prompt</span><span class="s2">(</span><span class="s3">&quot;Введите идентификатор пользователя: &quot;</span><span class="s2">);</span>
+                    <span class="s1">userController</span><span class="s2">.</span><span class="s1">updateUser</span><span class="s2">(</span><span class="s1">userId</span><span class="s2">, </span><span class="s1">userController</span><span class="s2">.</span><span class="s1">createUser</span><span class="s2">());</span>
+                    <span class="s0">break</span><span class="s2">;</span>
+                <span class="s0">case </span><span class="s1">DELETE</span><span class="s2">:</span>
+                    <span class="s1">String userId2 </span><span class="s2">= </span><span class="s1">userController</span><span class="s2">.</span><span class="s1">prompt</span><span class="s2">(</span><span class="s3">&quot;Ввведите идентификатор пользователя: &quot;</span><span class="s2">);</span>
+                    <span class="s1">userController</span><span class="s2">.</span><span class="s1">deleteUser</span><span class="s2">(</span><span class="s1">Long</span><span class="s2">.</span><span class="s1">parseLong</span><span class="s2">(</span><span class="s1">userId2</span><span class="s2">));</span>
+                    <span class="s0">break</span><span class="s2">;</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
