@@ -19,17 +19,17 @@ public class UserView {
         Commands com;
 
         while (true) {
-            String command = prompt("Введите команду\n CREATE, READ, UPDATE, LIST, DELETE, NONE, EXIT: ");
+            String command = userController.prompt("Введите команду\n CREATE, READ, UPDATE, LIST, DELETE, NONE, EXIT: ");
             com = Commands.valueOf(command.toUpperCase());
             if (com == Commands.EXIT) return;
             switch (com) {
                 case CREATE:
-                    User u = createUser();
+                    User u = userController.createUser();
                     userController.saveUser(u);
                     break;
 
                 case READ:
-                    String id = prompt("Enter user id: ");
+                    String id = userController.prompt("Enter user id: ");
                     System.out.println();
                     try {
                         User user = userController.readUser(Long.parseLong(id));
@@ -38,11 +38,11 @@ public class UserView {
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-                    break;
+                    continue;
                 case UPDATE:
-                    String userId = prompt("Enter user id: ");
+                    String userId = userController.prompt("Enter user id: ");
                     System.out.println();
-                    userController.updateUser(userId, createUser());
+                    userController.updateUser(userId, userController.createUser());
 
                 case LIST:
                     List<User> users = userController.readAll();
@@ -53,30 +53,27 @@ public class UserView {
                     }
 
                 case DELETE:
-                    Long removingUserId = Long.valueOf(prompt("Enter user id: "));
-                    // почему то при запуске в консоле LIST, выводит "Enter user id: "
+                    Long removingUserId = Long.valueOf(userController.prompt("Enter user id: "));
+                    // почему то при запуске в консоли LIST, отсюда выводит "Enter user id: "
                     System.out.println();
                     userController.delete(removingUserId);
 
-
-
-
-            } // todo добавить исключения
+            }
         }
     }
 
-    private String prompt(String message) {
-        Scanner in = new Scanner(System.in);
-        System.out.print(message);
-        return in.nextLine();
-    }
+//    private String prompt(String message) {
+//        Scanner in = new Scanner(System.in);
+//        System.out.print(message);
+//        return in.nextLine();
+//    }
 
-    private User createUser() { // todo подумать может перенести в другой слой
-        UserValidator validator = new UserValidator();
+//    private User createUser() {
+//        UserValidator validator = new UserValidator();
+//
+//        String firstName = prompt("Имя: ");
+//        String lastName = prompt("Фамилия: ");
+//        String phone = prompt("Номер телефона: ");
+//        return validator.validate(new User(firstName, lastName, phone));
 
-        String firstName = prompt("Имя: ");
-        String lastName = prompt("Фамилия: ");
-        String phone = prompt("Номер телефона: ");
-        return validator.validate(new User(firstName, lastName, phone));
-    }
 }

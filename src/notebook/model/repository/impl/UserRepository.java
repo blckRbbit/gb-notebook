@@ -19,6 +19,14 @@ public class UserRepository implements GBRepository {
         this.mapper = new UserMapper();
     }
 
+    private void write(List<User> users) {
+        List<String> lines = new ArrayList<>();
+        for (User u: users) {
+            lines.add(mapper.toInput(u));
+        }
+        saveAll(lines);
+    }
+
     @Override
     public List<User> findAll() {
         List<String> lines = readAll();
@@ -129,12 +137,6 @@ public class UserRepository implements GBRepository {
         }
     }
 
-    private void write(List<User> users) {
-        List<String> lines = new ArrayList<>();
-        for (User u: users) {
-            lines.add(mapper.toInput(u));
-        }
-        saveAll(lines);
-    }
+
 
 }
