@@ -73,8 +73,18 @@ public class UserRepository implements GBRepository {
 
     @Override
     public boolean delete(Long id) {
+        List<User> users = findAll();
+
+        for (User user: users) {
+            if (user.getId().equals(id)) {
+                users.remove(user);
+                write(users);
+                return true;
+            }
+        }
         return false;
     }
+
 
     @Override
     public List<String> readAll() {

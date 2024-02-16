@@ -5,6 +5,7 @@ import notebook.model.User;
 import notebook.util.Commands;
 import notebook.util.UserValidator;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class UserView {
@@ -14,34 +15,52 @@ public class UserView {
         this.userController = userController;
     }
 
-    public void run(){
+    public void run() throws RuntimeException {
         Commands com;
 
         while (true) {
-            String command = prompt("Введите команду: ");
-            com = Commands.valueOf(command);
+            String command = prompt("Введите команду\n CREATE, READ, UPDATE, LIST, DELETE, NONE, EXIT: ");
+            com = Commands.valueOf(command.toUpperCase());
             if (com == Commands.EXIT) return;
             switch (com) {
                 case CREATE:
                     User u = createUser();
                     userController.saveUser(u);
                     break;
+
                 case READ:
-                    String id = prompt("Идентификатор пользователя: ");
+                    String id = prompt("Enter user id: ");
+                    System.out.println();
                     try {
                         User user = userController.readUser(Long.parseLong(id));
-                        System.out.println(user);
-                        System.out.println();
+                        System.out.println(user + "\n");
+
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                     break;
                 case UPDATE:
                     String userId = prompt("Enter user id: ");
+                    System.out.println();
                     userController.updateUser(userId, createUser());
 
                 case LIST:
-                    System.out.println(userController.readAll());
+                    List<User> users = userController.readAll();
+                    System.out.println();
+                    for (User user: users) {
+                        System.out.println(user);
+                        System.out.println();
+                    }
+
+                case DELETE:
+                    Long removingUserId = Long.valueOf(prompt("Enter user id: "));
+                    // почему то при запуске в консоле LIST, выводит "Enter user id: "
+                    System.out.println();
+                    userController.delete(removingUserId);
+
+
+
+
             } // todo добавить исключения
         }
     }
