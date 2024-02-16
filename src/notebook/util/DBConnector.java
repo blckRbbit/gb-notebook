@@ -8,10 +8,10 @@ public class DBConnector {
         try {
             File db = new File(DB_PATH);
             if (db.createNewFile()) {
-                System.out.println("DB created");
+                System.err.println("DB created");
             }
             else {
-                System.out.println("DB already exists");
+                System.err.println("DB already exists");
             }
         }
         catch (Exception e) {
