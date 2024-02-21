@@ -16,6 +16,9 @@ public class UserController {
     public void saveUser(User user) {
         repository.create(user);
     }
+    public User createUser() {
+        return repository.createUser();
+    }
 
     public User readUser(Long userId) throws Exception {
         List<User> users = repository.findAll();

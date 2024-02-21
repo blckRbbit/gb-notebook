@@ -1,6 +1,7 @@
 package notebook.model.repository.impl;
 
 import notebook.model.dao.impl.FileOperation;
+import notebook.util.UserValidator;
 import notebook.util.mapper.impl.UserMapper;
 import notebook.model.User;
 import notebook.model.repository.GBRepository;
@@ -8,6 +9,7 @@ import notebook.model.repository.GBRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 public class UserRepository implements GBRepository {
     private final UserMapper mapper;
@@ -26,6 +28,20 @@ public class UserRepository implements GBRepository {
             users.add(mapper.toOutput(line));
         }
         return users;
+    }
+    public User createUser() {
+        String firstName = prompt("Имя: ");
+        String lastName = prompt("Фамилия: ");
+        String phone = prompt("Номер телефона: ");
+
+        UserValidator validator = new UserValidator();
+
+        return validator.validate(new User(firstName, lastName, phone));
+    }
+    private String prompt(String message) {
+        Scanner in = new Scanner(System.in);
+        System.out.print(message);
+        return in.nextLine();
     }
 
     @Override

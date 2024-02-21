@@ -23,7 +23,7 @@ public class UserView {
             if (com == Commands.EXIT) return;
             switch (com) {
                 case CREATE:
-                    User u = createUser();
+                    User u = userController.createUser();
                     userController.saveUser(u);
                     break;
                 case READ:
@@ -40,7 +40,7 @@ public class UserView {
                     System.out.println(userController.readAll());
                 case UPDATE:
                     String userId = prompt("Enter user id: ");
-                    userController.updateUser(userId, createUser());
+                    userController.updateUser(userId, userController.createUser());
                 case DELETE:
                     String userId2 = prompt("Enter user id: ");
                     userController.deleteUser(userId2);
@@ -53,14 +53,14 @@ public class UserView {
         System.out.print(message);
         return in.nextLine();
     }
-
-    private User createUser() {
-        String firstName = prompt("Имя: ");
-        String lastName = prompt("Фамилия: ");
-        String phone = prompt("Номер телефона: ");
-
-        UserValidator validator = new UserValidator();
-
-        return validator.validate(new User(firstName, lastName, phone));
-    }
+//
+//    private User createUser() {
+//        String firstName = prompt("Имя: ");
+//        String lastName = prompt("Фамилия: ");
+//        String phone = prompt("Номер телефона: ");
+//
+//        UserValidator validator = new UserValidator();
+//
+//        return validator.validate(new User(firstName, lastName, phone));
+//    }
 }
