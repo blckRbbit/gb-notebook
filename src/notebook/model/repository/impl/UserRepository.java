@@ -1,6 +1,7 @@
 package notebook.model.repository.impl;
 
 import notebook.model.dao.impl.FileOperation;
+import notebook.util.UserValidator;
 import notebook.util.mapper.impl.UserMapper;
 import notebook.model.User;
 import notebook.model.repository.GBRepository;
@@ -8,6 +9,7 @@ import notebook.model.repository.GBRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 public class UserRepository implements GBRepository {
     private final UserMapper mapper;
@@ -26,6 +28,20 @@ public class UserRepository implements GBRepository {
             users.add(mapper.toOutput(line));
         }
         return users;
+    }
+    public User createUser() {
+        String firstName = prompt("Имя: ");
+        String lastName = prompt("Фамилия: ");
+        String phone = prompt("Номер телефона: ");
+
+        UserValidator validator = new UserValidator();
+
+        return validator.validate(new User(firstName, lastName, phone));
+    }
+    private String prompt(String message) {
+        Scanner in = new Scanner(System.in);
+        System.out.print(message);
+        return in.nextLine();
     }
 
     @Override
@@ -57,16 +73,29 @@ public class UserRepository implements GBRepository {
                 .filter(u -> u.getId()
                         .equals(userId))
                 .findFirst().orElseThrow(() -> new RuntimeException("User not found"));
-        editUser.setFirstName(update.getFirstName());
-        editUser.setLastName(update.getLastName());
-        editUser.setPhone(update.getPhone());
+        if(!update.getFirstName().isEmpty()){
+            editUser.setFirstName(update.getFirstName());
+        }
+        if(!update.getLastName().isEmpty()){
+            editUser.setLastName(update.getLastName());
+        }
+        if(!update.getPhone().isEmpty()){
+            editUser.setPhone(update.getPhone());
+        }
         write(users);
         return Optional.of(update);
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    public boolean delete(Long userId) {
+        List<User> users = findAll();
+        User editUser = users.stream()
+                .filter(u -> u.getId()
+                        .equals(userId))
+                .findFirst().orElseThrow(() -> new RuntimeException("User not found"));
+        users.remove(editUser);
+        write(users);
+        return true;
     }
 
     private void write(List<User> users) {

@@ -16,6 +16,9 @@ public class UserController {
     public void saveUser(User user) {
         repository.create(user);
     }
+    public User createUser() {
+        return repository.createUser();
+    }
 
     public User readUser(Long userId) throws Exception {
         List<User> users = repository.findAll();
@@ -28,8 +31,15 @@ public class UserController {
         throw new RuntimeException("User not found");
     }
 
+    public List<User> readAll(){
+        return repository.findAll();
+    }
+
     public void updateUser(String userId, User update) {
         update.setId(Long.parseLong(userId));
         repository.update(Long.parseLong(userId), update);
+    }
+    public void deleteUser(String userId) {
+        repository.delete(Long.parseLong(userId));
     }
 }
