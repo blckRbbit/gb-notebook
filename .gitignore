@@ -3,3 +3,6 @@
 
 .idea
 *.iml
+
+*.class
+db.txt
