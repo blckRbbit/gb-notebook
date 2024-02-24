@@ -64,12 +64,6 @@ public class UserView {
         }
     }
 
-    public String prompt(String message) {
-        Scanner in = new Scanner(System.in);
-        System.out.print(message);
-        return in.nextLine();
-    }
-
     private String validateNewUser(User user) {
         String fn = user.getFirstName();
         if (fn.isEmpty()) {

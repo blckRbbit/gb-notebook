@@ -134,10 +134,6 @@ public class UserRepository implements GBRepository {
     @Override
     public void saveAll(List<String> data) {
         try (FileWriter writer = new FileWriter(fileName, false)) {
-            for (String line : data) {
-                // запись всей строки
-                writer.write(line);
-                // запись по символам
                 writer.append('\n');
             }
             writer.flush();

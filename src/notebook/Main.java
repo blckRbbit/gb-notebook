@@ -5,6 +5,8 @@ import notebook.model.repository.GBRepository;
 import notebook.model.repository.impl.UserRepository;
 import notebook.view.UserView;
 
+import java.util.Scanner;
+
 import static notebook.util.DBConnector.DB_PATH;
 import static notebook.util.DBConnector.createDB;
 
@@ -22,6 +24,12 @@ public class Main {
             } catch (Exception e) {
                 System.out.println(e);
             }
+        }
+
+        public String prompt(String message) {
+            Scanner in = new Scanner(System.in);
+            System.out.print(message);
+            return in.nextLine();
         }
     }
 }
