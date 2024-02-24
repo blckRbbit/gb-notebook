@@ -66,9 +66,6 @@ public class UserRepository implements GBRepository {
         User oldUser = users.stream()
                 .filter(u -> u.getId().equals(userId))
                 .findFirst().orElseThrow(() -> new RuntimeException("User not found"));
-        editUser.setFirstName(update.getFirstName());
-        editUser.setLastName(update.getLastName());
-        editUser.setPhone(update.getPhone());
         String str = newUser.getFirstName();
         if (!str.isEmpty()) {
             oldUser.setFirstName(str);
