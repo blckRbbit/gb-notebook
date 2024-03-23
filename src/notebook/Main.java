@@ -1,7 +1,7 @@
 package notebook;
 
 import notebook.controller.UserController;
-import notebook.model.dao.impl.FileOperation;
+import notebook.model.repository.impl.FileOperation;
 import notebook.model.repository.GBRepository;
 import notebook.model.repository.impl.UserRepository;
 import notebook.view.UserView;

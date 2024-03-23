@@ -3,6 +3,8 @@ package notebook.util.mapper.impl;
 import notebook.util.mapper.Mapper;
 import notebook.model.User;
 
+import java.util.Arrays;
+
 public class UserMapper implements Mapper {
     @Override
     public String toInput(User user) {

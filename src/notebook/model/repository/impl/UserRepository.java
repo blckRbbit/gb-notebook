@@ -1,10 +1,11 @@
 package notebook.model.repository.impl;
 
-import notebook.model.dao.impl.FileOperation;
+import notebook.model.repository.Operation;
 import notebook.util.mapper.impl.UserMapper;
 import notebook.model.User;
 import notebook.model.repository.GBRepository;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +48,12 @@ public class UserRepository implements GBRepository {
 
     @Override
     public Optional<User> findById(Long id) {
-        return Optional.empty();
+        List<User> users = findAll();
+        User findUser = users.stream()
+                .filter(u -> u.getId()
+                        .equals(id))
+                .findFirst().orElseThrow(() -> new RuntimeException("User not found"));
+        return Optional.of(findUser);
     }
 
     @Override
@@ -57,15 +63,30 @@ public class UserRepository implements GBRepository {
                 .filter(u -> u.getId()
                         .equals(userId))
                 .findFirst().orElseThrow(() -> new RuntimeException("User not found"));
-        editUser.setFirstName(update.getFirstName());
-        editUser.setLastName(update.getLastName());
-        editUser.setPhone(update.getPhone());
+        if(!update.getFirstName().isEmpty()){
+            editUser.setFirstName(update.getFirstName());
+        }
+        if(!update.getLastName().isEmpty()){
+            editUser.setLastName(update.getLastName());
+        }
+        if(!update.getPhone().isEmpty()){
+            editUser.setPhone(update.getPhone());
+        }
         write(users);
         return Optional.of(update);
     }
 
     @Override
     public boolean delete(Long id) {
+        User user = findById(id).get();
+        System.out.println(user);
+        List<User> users = findAll();
+        User deleteUser = users.stream()
+                .filter(u -> u.getId()
+                        .equals(id))
+                .findFirst().orElseThrow(() -> new RuntimeException("User not found"));
+        users.remove(deleteUser);
+        write(users);
         return false;
     }
 
