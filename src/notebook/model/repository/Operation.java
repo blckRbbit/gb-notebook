@@ -1,4 +1,4 @@
-package notebook.model.dao;
+package notebook.model.repository;
 
 import java.util.List;
 
